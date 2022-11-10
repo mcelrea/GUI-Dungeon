@@ -1,6 +1,7 @@
 package com.example.gui22022;
 
 import javafx.animation.AnimationTimer;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -22,6 +23,10 @@ public class HelloController {
     private Canvas gameCanvas;
     @FXML
     private Label nameLabel;
+    @FXML
+    private Button strengthRollButton, dexterityRollButton, intelligenceRollButton, constitutionRollButton, charismaRollButton, wisdomRollButton;
+    @FXML
+    private Label strengthValueLabel, dexterityValueLabel, intelligenceValueLabel, constitutionValueLabel, charismaValueLabel, wisdomValueLabel;
 
     int x=100, y=100;
 
@@ -54,18 +59,48 @@ public class HelloController {
         String buttonText = editNameButton.getText();
         if(buttonText.equals("Edit")) {
             editNameButton.setText("Save");
+            editNameButton.setLayoutX(300);
             nameLabel.setVisible(false);
             nameField.setVisible(true);
             nameField.setEditable(true);
         }
         else if(buttonText.equals("Save")) {
             editNameButton.setText("Edit");
+            editNameButton.setLayoutX(175);
             nameLabel.setVisible(true);
             nameField.setVisible(false);
             nameField.setEditable(false);
             nameLabel.setText(nameField.getText());
         }
     }
+
+    protected int rolld20() {
+        return (int)(1 + Math.random() * 20);
+    }
+
+    @FXML
+    protected void onRollButton(ActionEvent event) {
+        Button b = (Button)event.getSource();
+
+        if(b == strengthRollButton) {
+            strengthValueLabel.setText("" + rolld20());
+        }
+        else if(b == dexterityRollButton) {
+            dexterityValueLabel.setText("" + rolld20());
+        }
+        else if(b == constitutionRollButton) {
+            constitutionValueLabel.setText("" + rolld20());
+        }
+        else if(b == intelligenceRollButton) {
+            intelligenceValueLabel.setText("" + rolld20());
+        }
+        else if(b == wisdomRollButton) {
+            wisdomValueLabel.setText("" + rolld20());
+        }
+        else if(b == charismaRollButton) {
+            charismaValueLabel.setText("" + rolld20());
+        }
+    }//end onRollButton
 
     @FXML
     protected void onHelloButtonClick() {
