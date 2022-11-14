@@ -18,10 +18,9 @@
     <Tab text="Character Sheet">
         <content><AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="180.0">
             <children>
-                <Label layoutX="25.0" layoutY="50.0" prefHeight="30.0" prefWidth="113.0" text="Name: "/>
-                <TextField fx:id="nameField" layoutX="75.0" layoutY="50.0" prefHeight="30.0" prefWidth="213.0" text="Character Name" />
-                <Label fx:id="nameLabel" layoutX="75.0" layoutY="50.0" prefHeight="30.0" prefWidth="213.0" text="Character Name" />
-                <Button fx:id="editNameButton" layoutX="175.0" layoutY="50.0" prefHeight="30.0" prefWidth="50.0" text="Edit" onMouseClicked="#setEditNameButtonClick"/>
+                <TextField fx:id="nameField" layoutX="75.0" layoutY="50.0" prefHeight="30.0" prefWidth="213.0" text="Character Name"/>
+                <Label fx:id="nameLabel" layoutX="25.0" layoutY="20.0" prefHeight="30.0" prefWidth="213.0" text="Character Name"  style="-fx-font-size: 28;"/>
+                <Button fx:id="editNameButton" layoutX="25.0" layoutY="50.0" prefHeight="15.0" prefWidth="250.0" text="Edit" onMouseClicked="#setEditNameButtonClick"/>
 
                 <Label fx:id="statsLabel" layoutX="10.0" layoutY="110.0" prefHeight="30.0" prefWidth="180.0" text="Character Stats" style="-fx-font-size: 18; -fx-alignment: center;"/>
 
@@ -48,6 +47,8 @@
                 <Label fx:id="charismaLabel" layoutX="0.0" layoutY="400.0" prefHeight="30.0" prefWidth="90.0" text="Charisma" style="-fx-alignment: center-right;"/>
                 <Label fx:id="charismaValueLabel" layoutX="100.0" layoutY="400.0" prefHeight="30.0" prefWidth="50.0" text="0" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 3; -fx-alignment: center;"/>
                 <Button fx:id="charismaRollButton" layoutX="175.0" layoutY="400.0" prefHeight="30.0" prefWidth="50.0" text="Roll" onAction="#onRollButton"/>
+
+                <Button fx:id="saveCharacterButton" layoutX="100.0" layoutY="500.0" prefHeight="30.0" prefWidth="100.0" text="Save" onAction="#onSaveButtonClicked"/>
 
                 <!--                <Label fx:id="dexterityLabel" layoutX="25.0" layoutY="150.0" prefHeight="30.0" prefWidth="213.0" text="Dexterity" />-->
 <!--                <TextField fx:id="dexterityValueLabel" layoutX="100.0" layoutY="150.0" prefHeight="30.0" prefWidth="50.0" text="0"/>0-->

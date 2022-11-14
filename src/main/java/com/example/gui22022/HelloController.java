@@ -8,6 +8,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -24,11 +25,13 @@ public class HelloController {
     @FXML
     private Label nameLabel;
     @FXML
-    private Button strengthRollButton, dexterityRollButton, intelligenceRollButton, constitutionRollButton, charismaRollButton, wisdomRollButton;
+    private Button saveCharacterButton, strengthRollButton, dexterityRollButton, intelligenceRollButton, constitutionRollButton, charismaRollButton, wisdomRollButton;
     @FXML
     private Label strengthValueLabel, dexterityValueLabel, intelligenceValueLabel, constitutionValueLabel, charismaValueLabel, wisdomValueLabel;
 
     int x=100, y=100;
+    int saveCounter=0;
+    boolean changedName = false;
 
     @FXML
     public void initialize() {
@@ -37,6 +40,7 @@ public class HelloController {
         gc.setFont( theFont );
         nameField.setEditable(false);
         nameField.setVisible(false);
+        saveCharacterButton.setVisible(false);
 
         AnimationTimer anim = new AnimationTimer() {
             @Override
@@ -66,12 +70,27 @@ public class HelloController {
         }
         else if(buttonText.equals("Save")) {
             editNameButton.setText("Edit");
-            editNameButton.setLayoutX(175);
+            editNameButton.setLayoutX(25);
             nameLabel.setVisible(true);
             nameField.setVisible(false);
             nameField.setEditable(false);
             nameLabel.setText(nameField.getText());
+            if(!changedName)
+                saveCounter++;
+            changedName = true;
         }
+    }
+
+    @FXML
+    protected void onSaveButtonClicked() {
+        saveCharacterButton.setVisible(false);
+        strengthRollButton.setVisible(false);
+        dexterityRollButton.setVisible(false);
+        intelligenceRollButton.setVisible(false);
+        constitutionRollButton.setVisible(false);
+        charismaRollButton.setVisible(false);
+        wisdomRollButton.setVisible(false);
+        editNameButton.setVisible(false);
     }
 
     protected int rolld20() {
@@ -82,24 +101,75 @@ public class HelloController {
     protected void onRollButton(ActionEvent event) {
         Button b = (Button)event.getSource();
 
-        if(b == strengthRollButton) {
+        if(b == strengthRollButton && b.isVisible()) {
             strengthValueLabel.setText("" + rolld20());
+            if(b.getText().equals("Roll Again...")) {
+                b.setVisible(false);
+            }
+            else {
+                b.setText("Roll Again...");
+                b.setPrefSize(120,30);
+                saveCounter++;
+            }
         }
         else if(b == dexterityRollButton) {
             dexterityValueLabel.setText("" + rolld20());
+            if(b.getText().equals("Roll Again...")) {
+                b.setVisible(false);
+            }
+            else {
+                b.setText("Roll Again...");
+                b.setPrefSize(120,30);
+                saveCounter++;
+            }
         }
         else if(b == constitutionRollButton) {
             constitutionValueLabel.setText("" + rolld20());
+            if(b.getText().equals("Roll Again...")) {
+                b.setVisible(false);
+            }
+            else {
+                b.setText("Roll Again...");
+                b.setPrefSize(120,30);
+                saveCounter++;
+            }
         }
         else if(b == intelligenceRollButton) {
             intelligenceValueLabel.setText("" + rolld20());
+            if(b.getText().equals("Roll Again...")) {
+                b.setVisible(false);
+            }
+            else {
+                b.setText("Roll Again...");
+                b.setPrefSize(120,30);
+                saveCounter++;
+            }
         }
         else if(b == wisdomRollButton) {
             wisdomValueLabel.setText("" + rolld20());
+            if(b.getText().equals("Roll Again...")) {
+                b.setVisible(false);
+            }
+            else {
+                b.setText("Roll Again...");
+                b.setPrefSize(120,30);
+                saveCounter++;
+            }
         }
         else if(b == charismaRollButton) {
             charismaValueLabel.setText("" + rolld20());
+            if(b.getText().equals("Roll Again...")) {
+                b.setVisible(false);
+            }
+            else {
+                b.setText("Roll Again...");
+                b.setPrefSize(120,30);
+                saveCounter++;
+            }
         }
+
+        if (saveCounter >= 7)
+            saveCharacterButton.setVisible(true);
     }//end onRollButton
 
     @FXML
