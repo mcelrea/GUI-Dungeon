@@ -14,8 +14,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Formatter;
 
 public class HelloController {
     @FXML
@@ -33,6 +36,8 @@ public class HelloController {
     @FXML
     private Label strengthValueLabel, dexterityValueLabel, intelligenceValueLabel, constitutionValueLabel, charismaValueLabel, wisdomValueLabel;
 
+    private File characterFile;
+
     int x=100, y=100;
     int x1=100, y1=100;
     int saveCounter=0;
@@ -47,6 +52,16 @@ public class HelloController {
         nameField.setEditable(false);
         nameField.setVisible(false);
         saveCharacterButton.setVisible(false);
+
+        //load and/or create character data file
+        characterFile = new File("character.deg");
+        if(!characterFile.exists()) {
+            try {
+                characterFile.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
         //load external resources
         final Image image;
@@ -83,6 +98,15 @@ public class HelloController {
 
         anim.start();
 
+    }
+
+    @FXML
+    protected void onSaveMenuClicked() throws FileNotFoundException {
+        Formatter output = new Formatter(characterFile);
+        output.format("%s,%s,%s,%s,%s,%s,%s",nameField.getText(), strengthValueLabel.getText(),
+                dexterityValueLabel.getText(), constitutionValueLabel.getText(), intelligenceValueLabel.getText(),
+                wisdomValueLabel.getText(), charismaValueLabel.getText());
+        output.close();
     }
 
     @FXML
