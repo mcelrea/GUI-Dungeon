@@ -8,10 +8,14 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BackgroundFill;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class HelloController {
     @FXML
@@ -30,8 +34,10 @@ public class HelloController {
     private Label strengthValueLabel, dexterityValueLabel, intelligenceValueLabel, constitutionValueLabel, charismaValueLabel, wisdomValueLabel;
 
     int x=100, y=100;
+    int x1=100, y1=100;
     int saveCounter=0;
     boolean changedName = false;
+    boolean characterCreated = false;
 
     @FXML
     public void initialize() {
@@ -42,15 +48,36 @@ public class HelloController {
         nameField.setVisible(false);
         saveCharacterButton.setVisible(false);
 
+        //load external resources
+        final Image image;
+        try {
+            image = new Image(new FileInputStream("src/main/resources/com/example/gui22022/guy.png"));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("Could not load player Image");
+        }
+        
+
+
         AnimationTimer anim = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                gc.clearRect(0,0,800,600);
-                gc.setFill( Color.RED );
-                gc.setStroke( Color.BLACK );
-                gc.setLineWidth(2);
-                gc.fillText( "No Character", x, y );
-                gc.fillText( "Create Character", x, y+100 );
+                //gc.clearRect(0,0,800,600);
+                gc.setFill(Color.BISQUE);
+                gc.fillRect(0,0,800,600);
+
+                //if they haven't created a character on the Character tab
+                if(!characterCreated) {
+                    gc.setFill(Color.RED);
+                    gc.setStroke(Color.BLACK);
+                    gc.setLineWidth(2);
+                    gc.fillText("No Character", x, y);
+                    gc.fillText("Create Character", x, y + 100);
+                }
+                //else, character has been created, play the game
+                else {
+                    x1++;
+                    gc.drawImage(image,x1,y1);
+                }
             }
         };
 
@@ -91,6 +118,7 @@ public class HelloController {
         charismaRollButton.setVisible(false);
         wisdomRollButton.setVisible(false);
         editNameButton.setVisible(false);
+        characterCreated = true;
     }
 
     protected int rolld20() {
