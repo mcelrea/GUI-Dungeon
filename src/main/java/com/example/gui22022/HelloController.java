@@ -13,12 +13,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Formatter;
+import java.util.Scanner;
 
 public class HelloController {
     @FXML
@@ -102,11 +106,71 @@ public class HelloController {
 
     @FXML
     protected void onSaveMenuClicked() throws FileNotFoundException {
-        Formatter output = new Formatter(characterFile);
+        /*Formatter output = new Formatter(characterFile);
         output.format("%s,%s,%s,%s,%s,%s,%s",nameField.getText(), strengthValueLabel.getText(),
                 dexterityValueLabel.getText(), constitutionValueLabel.getText(), intelligenceValueLabel.getText(),
                 wisdomValueLabel.getText(), charismaValueLabel.getText());
-        output.close();
+        output.close();*/
+        File file = HelloApplication.openSaveDialog();
+        if(file != null) {
+            file = new File(file.getAbsolutePath() + ".deg");
+            Formatter output = new Formatter(file);
+            output.format("%s,%s,%s,%s,%s,%s,%s",nameField.getText(), strengthValueLabel.getText(),
+                    dexterityValueLabel.getText(), constitutionValueLabel.getText(), intelligenceValueLabel.getText(),
+                    wisdomValueLabel.getText(), charismaValueLabel.getText());
+            output.close();
+        }
+    }
+
+    protected ArrayList<String> parseCSV(String line) {
+        ArrayList<String> list = new ArrayList<>();
+        int indexOfComma = line.indexOf(",");
+        while(indexOfComma != -1) {
+            //System.out.println("Index of comma: " + indexOfComma);
+            //System.out.println("Adding " + line.substring(0,indexOfComma));
+            list.add(line.substring(0,indexOfComma));
+            line = line.substring(indexOfComma+1);
+            indexOfComma = line.indexOf(",");
+        }
+        list.add(line);
+        return list;
+    }
+
+    public void printList(ArrayList<String> list) {
+        for(String s: list) {
+            System.out.println(s);
+        }
+    }
+
+    @FXML
+    protected void onOpenMenuClicked() throws FileNotFoundException {
+        File file = HelloApplication.openLoadDialog();
+        Scanner input = new Scanner(file);
+
+        while(input.hasNext()) {
+            String s = input.nextLine();
+            ArrayList<String> list = parseCSV(s);
+            nameField.setText(list.get(0));
+            nameLabel.setText(list.get(0));
+            strengthValueLabel.setText(list.get(1));
+            dexterityValueLabel.setText(list.get(2));
+            intelligenceValueLabel.setText(list.get(3));
+            constitutionValueLabel.setText(list.get(4));
+            charismaValueLabel.setText(list.get(5));
+            wisdomValueLabel.setText(list.get(6));
+
+            editNameButton.setVisible(false);
+            strengthRollButton.setVisible(false);
+            dexterityRollButton.setVisible(false);
+            intelligenceRollButton.setVisible(false);
+            constitutionRollButton.setVisible(false);
+            charismaRollButton.setVisible(false);
+            wisdomRollButton.setVisible(false);
+
+            characterCreated = true;
+            //printList(list);
+        }
+        input.close();
     }
 
     @FXML
