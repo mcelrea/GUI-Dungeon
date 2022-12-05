@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -42,11 +43,13 @@ public class HelloController {
 
     private File characterFile;
 
+
     int x=100, y=100;
     int x1=100, y1=100;
     int saveCounter=0;
     boolean changedName = false;
     boolean characterCreated = false;
+    Player player;
 
     @FXML
     public void initialize() {
@@ -56,26 +59,7 @@ public class HelloController {
         nameField.setEditable(false);
         nameField.setVisible(false);
         saveCharacterButton.setVisible(false);
-
-        //load and/or create character data file
-        characterFile = new File("character.deg");
-        if(!characterFile.exists()) {
-            try {
-                characterFile.createNewFile();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        //load external resources
-        final Image image;
-        try {
-            image = new Image(new FileInputStream("src/main/resources/com/example/gui22022/guy.png"));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException("Could not load player Image");
-        }
-        
-
+        player = new Player("guy.png", 100,100);
 
         AnimationTimer anim = new AnimationTimer() {
             @Override
@@ -94,14 +78,29 @@ public class HelloController {
                 }
                 //else, character has been created, play the game
                 else {
-                    x1++;
-                    gc.drawImage(image,x1,y1);
+                    movement();
+                    player.draw(gc);
                 }
             }
         };
 
         anim.start();
 
+    }
+
+    protected void movement(){
+        if(HelloApplication.currentlyActiveKeys.contains(KeyCode.A.toString())){
+            player.moveLeft();
+        }
+        if (HelloApplication.currentlyActiveKeys.contains(KeyCode.D.toString())) {
+            player.moveRight();
+        }
+        if (HelloApplication.currentlyActiveKeys.contains(KeyCode.S.toString())) {
+            player.moveDown();
+        }
+        if (HelloApplication.currentlyActiveKeys.contains(KeyCode.W.toString())) {
+            player.moveUp();
+        }
     }
 
     @FXML
